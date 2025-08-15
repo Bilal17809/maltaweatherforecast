@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:toastification/toastification.dart';
+import '/core/common_widgets/common_widgets.dart';
+import '/core/theme/theme.dart';
+import '/core/common/app_exceptions.dart';
+import '/core/constants/constants.dart';
+import '/presentation/home/controller/home_controller.dart';
+import '../../controller/cities_controller.dart';
+
+class CurrentLocationCard extends StatelessWidget {
+  final CitiesController controller;
+  const CurrentLocationCard({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final HomeController homeController = Get.find();
+
+    return Obx(() {
+      final currentCity = homeController.currentLocationCity;
+      final isCurrentlySelected =
+          homeController.selectedCity.value?.city == currentCity?.city;
+
+      return GestureDetector(
+        onTap: () async {
+          FocusScope.of(context).unfocus();
+          if (currentCity != null) {
+            await controller.selectCity(currentCity);
+            Future.delayed(const Duration(milliseconds: 160), () {
+              Get.back(result: currentCity);
+            });
+          } else {
+            SimpleToast.showCustomToast(
+              context: context,
+              message: AppExceptions().deniedPermission,
+              type: ToastificationType.error,
+              icon: Icons.location_off,
+              primaryColor: kRed,
+            );
+            return;
+          }
+        },
+        child: Container(
+          decoration: roundedDecor(context).copyWith(
+            gradient: context.isDark
+                ? kContainerGradient(context)
+                : kGradient(context),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(24),
+              bottomLeft: Radius.circular(24),
+            ),
+            border: isCurrentlySelected
+                ? Border.all(color: getSecondaryColor(context), width: 2)
+                : null,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(kBodyHp),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.my_location,
+                            color: kWhite,
+                            size: smallIcon(context),
+                          ),
+                          const Gap(kGap),
+                          Expanded(
+                            child: Text(
+                              'Use Current Location',
+                              style: titleSmallStyle(context).copyWith(
+                                color: kWhite,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: kGap),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                currentCity != null
+                                    ? currentCity.region != null &&
+                                              currentCity.region!.isNotEmpty
+                                          ? '${currentCity.city}, ${currentCity.region}'
+                                          : currentCity.city
+                                    : 'Error Fetching City',
+                                style: bodyLargeStyle(context).copyWith(
+                                  color: kWhite.withValues(alpha: 0.8),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  isCurrentlySelected
+                      ? Icons.my_location
+                      : Icons.location_searching,
+                  color: kWhite,
+                  size: smallIcon(context),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}

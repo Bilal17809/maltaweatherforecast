@@ -1,0 +1,24 @@
+import '/domain/repo/weather_repo.dart';
+import '../data_source/online_data_sr.dart';
+import '../models/forecast_model.dart';
+import '../models/weather_model.dart';
+
+class WeatherApiImpl implements WeatherRepo {
+  final OnlineDataSource onlineDataSource;
+
+  WeatherApiImpl(this.onlineDataSource);
+
+  @override
+  Future<(WeatherModel, List<ForecastModel>)> getWeatherAndForecast(
+    double lat,
+    double lon,
+  ) async {
+    return await onlineDataSource.getWeatherAndForecast(lat: lat, lon: lon);
+  }
+
+  /// For Current Location
+  @override
+  Future<(String, String)> getCityAndRegion(double lat, double lon) {
+    return onlineDataSource.getCityAndRegion(lat, lon);
+  }
+}
