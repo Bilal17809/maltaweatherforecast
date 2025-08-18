@@ -7,23 +7,38 @@ class AutoScrollService {
   void setupAutoScroll({
     required RxBool isWeatherDataLoaded,
     required ScrollController scrollController,
+    DateTime? selectedDate,
   }) {
     isWeatherDataLoaded.listen((loaded) {
       if (loaded) {
-        _performAutoScroll(scrollController);
+        _performAutoScroll(scrollController, selectedDate);
       }
     });
 
     if (isWeatherDataLoaded.value) {
-      _performAutoScroll(scrollController);
+      _performAutoScroll(scrollController, selectedDate);
     }
   }
 
-  void _performAutoScroll(ScrollController scrollController) {
+  void _performAutoScroll(
+    ScrollController scrollController,
+    DateTime? selectedDate,
+  ) {
+    final now = DateTime.now();
+    final isToday =
+        selectedDate == null ||
+        (selectedDate.year == now.year &&
+            selectedDate.month == now.month &&
+            selectedDate.day == now.day);
+
+    if (!isToday) {
+      return;
+    }
+
     Timer.periodic(const Duration(milliseconds: 200), (timer) {
       if (!scrollController.hasClients) return;
-      timer.cancel();
 
+      timer.cancel();
       final context = scrollController.position.context.storageContext;
       final double itemWidth = mobileWidth(context) * 0.19;
       final int currentHour = DateTime.now().hour;

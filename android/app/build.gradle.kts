@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.maltaweatherforecast"
     compileSdk = 36
-    ndkVersion = "28.0.12916984"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

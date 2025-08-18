@@ -16,7 +16,7 @@ TextStyle headlineMediumStyle(BuildContext context) => TextStyle(
 );
 
 TextStyle headlineSmallStyle(BuildContext context) => TextStyle(
-  fontSize: 24,
+  fontSize: 28,
   fontWeight: FontWeight.w500,
   color: primaryText(context),
 );
@@ -30,7 +30,7 @@ TextStyle titleMediumStyle(BuildContext context) => TextStyle(
 TextStyle titleLargeStyle(BuildContext context) => TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.bold,
-  color: getSecondaryColor(context),
+  color: primaryText(context),
 );
 
 TextStyle titleSmallStyle(BuildContext context) => TextStyle(
