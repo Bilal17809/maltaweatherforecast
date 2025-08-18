@@ -5,12 +5,19 @@ import '/presentation/home/controller/home_controller.dart';
 import '/presentation/splash/controller/splash_controller.dart';
 import '/core/constants/constants.dart';
 import '/core/theme/theme.dart';
-import '../../../../core/common_widgets/shimmers.dart';
+import 'shimmers.dart';
 
 class HourlyForecastList extends StatelessWidget {
+  final bool showBg;
   final ScrollController? customScrollController;
+  final DateTime? selectedDate;
 
-  const HourlyForecastList({super.key, this.customScrollController});
+  const HourlyForecastList({
+    super.key,
+    this.customScrollController,
+    this.selectedDate,
+    required this.showBg,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +29,45 @@ class HourlyForecastList extends StatelessWidget {
     return Obx(() {
       final selectedCity = homeController.selectedCity.value;
       Map<String, dynamic> cityForecastData;
+
       if (selectedCity != null) {
         cityForecastData = splashController.getCityForecastData(selectedCity);
       } else {
         cityForecastData = splashController.rawForecastData;
       }
 
-      final forecastDays = cityForecastData['forecast']?['forecastday'];
-      final todayData = (forecastDays as List?)?.firstOrNull;
-      final hourlyList = todayData?['hour'] as List? ?? [];
+      final forecastDays =
+          cityForecastData['forecast']?['forecastday'] as List? ?? [];
+
+      Map<String, dynamic>? selectedDayData;
+
+      if (selectedDate != null) {
+        selectedDayData = forecastDays.firstWhereOrNull((day) {
+          final dayDate = DateTime.parse(day['date']);
+          return dayDate.year == selectedDate!.year &&
+              dayDate.month == selectedDate!.month &&
+              dayDate.day == selectedDate!.day;
+        });
+      } else {
+        selectedDayData = forecastDays.firstOrNull;
+      }
+
+      final hourlyList = selectedDayData?['hour'] as List? ?? [];
+
       final now = DateTime.now();
-      final isLoading = forecastDays == null || homeController.isLoading.value;
+      final isLoading = homeController.isLoading.value;
+
+      final isSelectedDateToday =
+          selectedDate == null ||
+          (selectedDate!.year == now.year &&
+              selectedDate!.month == now.month &&
+              selectedDate!.day == now.day);
 
       if (isLoading) {
         const shimmerItemCount = 4;
         return Container(
           height: mobileHeight(context) * 0.16,
-          decoration: roundedDecorationWithShadow,
+          decoration: showBg ? roundedDecorationWithShadow : null,
           child: ShimmerListView(
             itemCount: shimmerItemCount,
             itemHeight: mobileHeight(context) * 0.12,
@@ -46,24 +75,9 @@ class HourlyForecastList extends StatelessWidget {
         );
       }
 
-      if (hourlyList.isEmpty) {
-        return Container(
-          height: mobileHeight(context) * 0.16,
-          decoration: roundedDecorationWithShadow,
-          child: Center(
-            child: Text(
-              'No hourly data available',
-              style: bodyMediumStyle(
-                context,
-              ).copyWith(color: kWhite.withValues(alpha: 0.7)),
-            ),
-          ),
-        );
-      }
-
       return Container(
         height: mobileHeight(context) * 0.16,
-        decoration: roundedDecorationWithShadow,
+        decoration: showBg ? roundedDecorationWithShadow : null,
         child: ListView.builder(
           controller: scrollController,
           scrollDirection: Axis.horizontal,
@@ -74,9 +88,11 @@ class HourlyForecastList extends StatelessWidget {
             final hourLabel = TimeOfDay.fromDateTime(hourTime).format(context);
             final isCurrentHour = hourTime.hour == now.hour;
 
+            final shouldShowBorder = isCurrentHour && isSelectedDateToday;
+
             return _HourlyForecast(
               day: hourLabel,
-              isSelected: isCurrentHour,
+              isSelected: shouldShowBorder,
               hourData: hourData,
             );
           },
@@ -145,7 +161,7 @@ class _HourlyForecast extends StatelessWidget {
                   maxLines: 1,
                 ),
               ),
-              const Gap(6),
+              const Gap(kGap),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(

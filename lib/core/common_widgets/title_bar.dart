@@ -57,19 +57,18 @@ class TitleBar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (hasTitle)
-                      Column(
-                        children: [
-                          if (hasTitle)
-                            Text(title!, style: titleMediumStyle(context)),
-                          Text(
-                            subtitle,
-                            style: (hasTitle
-                                ? bodyLargeStyle(context)
-                                : titleMediumStyle(context)),
-                          ),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        if (hasTitle)
+                          Text(title!, style: titleMediumStyle(context)),
+                        Text(
+                          subtitle,
+                          style: (hasTitle
+                              ? bodyLargeStyle(context)
+                              : titleMediumStyle(context)),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

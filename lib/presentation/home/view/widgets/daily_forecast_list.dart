@@ -31,7 +31,7 @@ class DailyForecastList extends StatelessWidget {
       final isLoading = forecastDays == null || homeController.isLoading.value;
 
       if (isLoading) {
-        const shimmerItemCount = 4;
+        const shimmerItemCount = 7;
         return Container(
           height: mobileHeight(context) * 0.23,
           decoration: roundedDecorationWithShadow,
@@ -55,15 +55,8 @@ class DailyForecastList extends StatelessWidget {
 
             return GestureDetector(
               onTap: () => Get.to(
-                () => DailyForecastView(
-                  weatherIconPath: 'weatherIconPath',
-                  condition: 'condition',
-                  temperature: 20,
-                  feelsLike: 45,
-                  precipitation: 'precipitation',
-                  humidity: 'humidity',
-                  windSpeed: 'windSpeed',
-                ),
+                () => DailyForecastView(cityName: selectedCity!.city),
+                arguments: {'date': date, 'dayData': dayData},
               ),
               child: _DailyForecast(
                 day: dayLabel,
@@ -117,7 +110,7 @@ class _DailyForecast extends StatelessWidget {
                     size: mediumIcon(context),
                     color: kWhite,
                   ),
-            // const Gap(kGap),
+            const Gap(kGap),
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
@@ -127,11 +120,24 @@ class _DailyForecast extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            const Gap(6),
+            const Gap(kGap),
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                dayData != null ? '${dayData!['avgtemp_c'].round()}°C' : '0°',
+                dayData != null ? '${dayData!['maxtemp_c'].round()}°C' : '0°',
+                style: bodyMediumStyle(context).copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: secondaryText(context),
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+            const Gap(kGap),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                dayData != null ? '${dayData!['mintemp_c'].round()}°C' : '0°',
                 style: bodyMediumStyle(
                   context,
                 ).copyWith(fontWeight: FontWeight.bold),

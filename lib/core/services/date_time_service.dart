@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class DateTimeService {
   static String getFormattedCurrentDate() {
-    return DateFormat('EEEE d MMMM').format(DateTime.now());
+    return DateFormat('EEEE, d MMMM').format(DateTime.now());
   }
 
   static String getTodayDateKey() {

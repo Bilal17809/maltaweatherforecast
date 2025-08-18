@@ -5,3 +5,4 @@ export 'search_bar.dart';
 export 'title_bar.dart';
 export 'toast.dart';
 export 'weather_stat_widget.dart';
+export 'hourly_forecast.dart';

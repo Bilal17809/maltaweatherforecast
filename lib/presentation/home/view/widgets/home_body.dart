@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:maltaweatherforecast/core/animation/view/animated_weather_icon.dart';
-import 'package:maltaweatherforecast/presentation/home/view/widgets/daily_forecast_list.dart';
+import '/core/animation/view/animated_weather_icon.dart';
+import '/presentation/home/view/widgets/daily_forecast_list.dart';
 import '../../controller/home_controller.dart';
 import '/core/services/services.dart';
 import '/core/utils/weather_utils.dart';
@@ -10,7 +10,6 @@ import '/core/constants/constants.dart';
 import '/core/theme/theme.dart';
 import '/core/common_widgets/common_widgets.dart';
 import '/presentation/cities/view/cities_view.dart';
-import 'hourly_forecast.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
@@ -28,31 +27,7 @@ class HomeBody extends StatelessWidget {
       final temp = weather?.temperature.round().toString() ?? '--';
 
       if (selectedCity == null || weather == null) {
-        return Column(
-          children: [
-            TitleBar(
-              title: homeController.selectedCityName,
-              subtitle: DateTimeService.getFormattedCurrentDate(),
-              useBackButton: false,
-              actions: [
-                IconActionButton(
-                  onTap: () {
-                    Get.to(
-                      () => const CitiesView(),
-                      transition: Transition.fadeIn,
-                    );
-                  },
-                  icon: Icons.add_circle_rounded,
-                  color: getIconColor(context),
-                  size: secondaryIcon(context),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Center(child: CircularProgressIndicator(color: kWhite)),
-            ),
-          ],
-        );
+        return Center(child: CircularProgressIndicator(color: kWhite));
       }
 
       return Column(
@@ -88,31 +63,21 @@ class HomeBody extends StatelessWidget {
                   width: primaryIcon(context),
                 ),
                 Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  softWrap: true,
                   weather.condition,
-                  style: context.textTheme.bodyLarge?.copyWith(
-                    fontSize: 19,
-                    color: kWhite,
-                  ),
+                  style: titleMediumStyle(context),
                 ),
-                Text(
-                  '$temp°C',
-                  style: context.textTheme.bodyLarge?.copyWith(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: kWhite,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [const SizedBox(height: 8)],
-                ),
+                const Gap(kGap),
+                Text('$temp°C', style: headlineSmallStyle(context)),
+                const Gap(kGap),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kElementGap),
-            child: HourlyForecastList(),
+            child: HourlyForecastList(showBg: true),
           ),
           Padding(
             padding: const EdgeInsets.all(kElementGap),

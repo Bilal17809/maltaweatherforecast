@@ -157,10 +157,10 @@ final BoxDecoration roundedDecorationWithShadow = BoxDecoration(
   color: hourlyRow.withValues(alpha: 0.7),
   boxShadow: [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.2), // Shadow color
-      spreadRadius: 2, // How much the shadow spreads
-      blurRadius: 6, // How soft the shadow is
-      offset: Offset(4, 4), // x, y: move right & down
+      color: Colors.black.withValues(alpha: 0.2),
+      spreadRadius: 2,
+      blurRadius: 6,
+      offset: Offset(4, 4),
     ),
   ],
 );
