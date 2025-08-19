@@ -13,7 +13,6 @@ const double kBorderRadius = 14.0;
 double primaryIcon(BuildContext context) => mobileWidth(context) * 0.4;
 double secondaryIcon(BuildContext context) => mobileWidth(context) * 0.07;
 double mediumIcon(BuildContext context) => mobileWidth(context) * 0.19;
-double smallIcon(BuildContext context) => mobileWidth(context) * 0.19;
 
 /// ========== MediaQuery Helpers ==========
 double mobileWidth(BuildContext context) => MediaQuery.of(context).size.width;

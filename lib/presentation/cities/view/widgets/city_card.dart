@@ -54,22 +54,20 @@ class CityCard extends StatelessWidget {
                 : null,
             border: isSelected
                 ? Border.all(
-                    color: context.isDark
-                        ? secondaryColorDark
-                        : selectedLightColor,
+                    color: context.isDark ? secondaryColorDark : bgDark2,
                     width: 2,
                   )
                 : null,
           ),
           padding: const EdgeInsets.all(kBodyHp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       city.city,
                       style: titleSmallStyle(
                         context,
@@ -77,39 +75,37 @@ class CityCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
-                  ),
-                  Icon(
-                    isSelected ? Icons.my_location : Icons.location_on,
-                    color: kWhite,
-                    size: smallIcon(context),
-                  ),
-                ],
+                    const Gap(kGap),
+                    Text(
+                      airQuality,
+                      style: bodyMediumStyle(context).copyWith(color: kWhite),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-              const Gap(kGap),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '$temp°',
                     style: headlineMediumStyle(context).copyWith(color: kWhite),
                   ),
                   const Gap(kGap),
-                  Flexible(
-                    child: Text(
-                      condition,
-                      style: bodyMediumStyle(context).copyWith(color: kWhite),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Text(
+                    condition,
+                    style: bodyMediumStyle(context).copyWith(color: kWhite),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
-              const Gap(kGap),
-              Text(
-                airQuality,
-                style: bodyMediumStyle(context).copyWith(color: kWhite),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Icon(
+                isSelected ? Icons.my_location : Icons.location_on,
+                color: kWhite,
+                size: secondaryIcon(context),
               ),
             ],
           ),

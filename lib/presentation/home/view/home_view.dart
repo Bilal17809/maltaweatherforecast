@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:maltaweatherforecast/core/theme/app_theme.dart';
+import '/core/theme/theme.dart';
 import '/presentation/app_drawer/app_drawer.dart';
 import '/core/global_keys/global_key.dart';
 import '../controller/home_controller.dart';
@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
           homeController.isDrawerOpen.value = isOpen;
         },
         body: Container(
-          decoration: bgGradient,
+          decoration: bgGradient(context),
           child: const SafeArea(child: HomeBody()),
         ),
       ),

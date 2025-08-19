@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:maltaweatherforecast/core/services/date_time_service.dart';
-import 'package:maltaweatherforecast/presentation/daily_forecast/view/daily_forecast_view.dart';
+import '/core/services/date_time_service.dart';
+import '/presentation/daily_forecast/view/daily_forecast_view.dart';
 import '/core/common_widgets/common_widgets.dart';
 import '/presentation/home/controller/home_controller.dart';
 import '/presentation/splash/controller/splash_controller.dart';
@@ -34,7 +34,7 @@ class DailyForecastList extends StatelessWidget {
         const shimmerItemCount = 7;
         return Container(
           height: mobileHeight(context) * 0.23,
-          decoration: roundedDecorationWithShadow,
+          decoration: roundedDecorationWithShadow(context),
           child: ShimmerListView(
             itemCount: shimmerItemCount,
             itemHeight: mobileHeight(context) * 0.20,
@@ -56,7 +56,11 @@ class DailyForecastList extends StatelessWidget {
             return GestureDetector(
               onTap: () => Get.to(
                 () => DailyForecastView(cityName: selectedCity!.city),
-                arguments: {'date': date, 'dayData': dayData},
+                arguments: {
+                  'date': date,
+                  'dayData': dayData,
+                  'astro': forecastDays[index]['astro'],
+                },
               ),
               child: _DailyForecast(
                 day: dayLabel,
@@ -87,7 +91,7 @@ class _DailyForecast extends StatelessWidget {
     return Container(
       width: mobileWidth(context) * 0.23,
       margin: EdgeInsets.symmetric(horizontal: 1),
-      decoration: todayCardDecoration(isSelected),
+      decoration: todayCardDecoration(context, isSelected),
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Column(

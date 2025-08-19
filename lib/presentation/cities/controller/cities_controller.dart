@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '/ad_manager/ad_manager.dart';
 import '/presentation/home/controller/home_controller.dart';
 import '/core/mixins/connectivity_mixin.dart';
 import '/core/services/services.dart';
@@ -21,6 +22,7 @@ class CitiesController extends GetxController with ConnectivityMixin {
   @override
   void onReady() {
     super.onReady();
+    Get.find<InterstitialAdManager>().checkAndDisplayAd();
     _syncSplash();
   }
 
