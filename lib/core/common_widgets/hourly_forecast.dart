@@ -67,7 +67,7 @@ class HourlyForecastList extends StatelessWidget {
         const shimmerItemCount = 4;
         return Container(
           height: mobileHeight(context) * 0.16,
-          decoration: showBg ? roundedDecorationWithShadow : null,
+          decoration: showBg ? roundedDecorationWithShadow(context) : null,
           child: ShimmerListView(
             itemCount: shimmerItemCount,
             itemHeight: mobileHeight(context) * 0.12,
@@ -77,7 +77,7 @@ class HourlyForecastList extends StatelessWidget {
 
       return Container(
         height: mobileHeight(context) * 0.16,
-        decoration: showBg ? roundedDecorationWithShadow : null,
+        decoration: showBg ? roundedDecorationWithShadow(context) : null,
         child: ListView.builder(
           controller: scrollController,
           scrollDirection: Axis.horizontal,

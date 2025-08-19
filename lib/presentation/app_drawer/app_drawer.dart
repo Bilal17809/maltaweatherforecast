@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:maltaweatherforecast/presentation/terms/terms_view.dart';
-import '../../core/constants/constants.dart';
-import '../../core/local_storage/local_storage.dart';
+import '/presentation/premium_screen/premium_screen.dart';
+import '/core/constants/constants.dart';
+import '/core/local_storage/local_storage.dart';
 import '/core/theme/theme.dart';
-import '../../core/utils/drawer_helper.dart';
+import '/core/utils/drawer_helper.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -76,7 +75,7 @@ class AppDrawer extends StatelessWidget {
                 icon: Icons.star_rounded,
                 title: 'Remove Ads',
                 onTap: () {
-                  Get.to(TermsView());
+                  Get.to(PremiumScreen());
                 },
               ),
               Divider(color: primaryColorLight.withValues(alpha: 0.1)),

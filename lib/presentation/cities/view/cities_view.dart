@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import '/core/animation/view/animated_bg_builder.dart';
 import '/core/theme/theme.dart';
 import 'widgets/city_card.dart';
 import 'widgets/current_location_card.dart';
 import '/core/common_widgets/common_widgets.dart';
 import '/core/constants/constants.dart';
 import '../controller/cities_controller.dart';
+import '/ad_manager/ad_manager.dart';
 
 class CitiesView extends StatelessWidget {
   const CitiesView({super.key});
@@ -19,27 +19,42 @@ class CitiesView extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: Stack(
-          children: [
-            AnimatedBgImageBuilder(),
-            SafeArea(
-              child: Column(
-                children: [
-                  TitleBar(subtitle: 'Select City'),
-                  const _SearchWidget(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kBodyHp,
-                      vertical: kElementGap,
-                    ),
-                    child: CurrentLocationCard(controller: controller),
-                  ),
-                  _CitiesGrid(controller: controller),
-                ],
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/city_bg.png'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                context.isDark
+                    ? bgDark2.withValues(alpha: 0.68)
+                    : kBgGreen.withValues(alpha: 0.68),
+                BlendMode.srcOver,
               ),
             ),
-          ],
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                TitleBar(subtitle: 'Select City'),
+                const _SearchWidget(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kBodyHp,
+                    vertical: kElementGap,
+                  ),
+                  child: CurrentLocationCard(controller: controller),
+                ),
+                _CitiesGrid(controller: controller),
+              ],
+            ),
+          ),
         ),
+        bottomNavigationBar: Obx(() {
+          if (Get.find<InterstitialAdManager>().isShow.value) {
+            return const SizedBox();
+          }
+          return Get.find<BannerAdManager>().showBannerAd('ad1');
+        }),
       ),
     );
   }
@@ -59,17 +74,18 @@ class _CitiesGrid extends StatelessWidget {
         }
         return Padding(
           padding: const EdgeInsets.only(bottom: kGap),
-          child: GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: mobileWidth(context) / 2,
-              mainAxisSpacing: kElementGap,
-              crossAxisSpacing: kElementGap,
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kBodyHp,
+              vertical: kElementGap,
             ),
             itemCount: cities.length,
-            itemBuilder: (BuildContext context, index) {
+            itemBuilder: (BuildContext context, int index) {
               final city = cities[index];
-              return CityCard(controller: controller, city: city);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: kElementGap),
+                child: CityCard(controller: controller, city: city),
+              );
             },
           ),
         );
@@ -108,7 +124,7 @@ class _SearchWidget extends StatelessWidget {
                   Icon(
                     Icons.error_outline,
                     color: kRed,
-                    size: smallIcon(context),
+                    size: secondaryIcon(context),
                   ),
                   const Gap(kGap),
                   Expanded(

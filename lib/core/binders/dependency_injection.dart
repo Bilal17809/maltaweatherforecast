@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '/core/animation/services/bg_animation_service.dart';
+import '/ad_manager/ad_manager.dart';
 import '/presentation/cities/controller/cities_controller.dart';
 import '../config/client.dart';
 import '../local_storage/local_storage.dart';
@@ -63,7 +63,6 @@ class DependencyInjection {
     );
     Get.lazyPut<ConditionService>(() => ConditionService(), fenix: true);
     Get.lazyPut<AutoScrollService>(() => AutoScrollService(), fenix: true);
-    Get.lazyPut<BgAnimationService>(() => BgAnimationService(), fenix: true);
     Get.lazyPut<HomeController>(
       () => HomeController(Get.find<GetWeatherAndForecast>()),
       fenix: true,
@@ -73,5 +72,17 @@ class DependencyInjection {
       fenix: true,
     );
     Get.lazyPut<CitiesController>(() => CitiesController(), fenix: true);
+
+    /// Ads
+    Get.lazyPut<SplashInterstitialManager>(
+      () => SplashInterstitialManager(),
+      fenix: true,
+    );
+    Get.lazyPut<InterstitialAdManager>(
+      () => InterstitialAdManager(),
+      fenix: true,
+    );
+    Get.lazyPut<BannerAdManager>(() => BannerAdManager(), fenix: true);
+    Get.lazyPut<NativeAdManager>(() => NativeAdManager(), fenix: true);
   }
 }

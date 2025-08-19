@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/core/animation/services/bg_animation_service.dart';
+import '/core/animation/services/animation_service.dart';
 import '../extension/weather_condition_extension.dart';
 
 class AnimatedWeatherIcon extends StatefulWidget {

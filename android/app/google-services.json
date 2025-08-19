@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "962118179785",
+    "project_id": "malta-weather-forecast",
+    "storage_bucket": "malta-weather-forecast.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962118179785:android:6f3a8d068368911b7b2618",
+        "android_client_info": {
+          "package_name": "com.unisoftaps.maltaweatherforecast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDszZOXse8oOKHd3OFEoqjO235-LM1Vvcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

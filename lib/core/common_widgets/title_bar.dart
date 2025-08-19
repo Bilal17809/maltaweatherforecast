@@ -32,17 +32,15 @@ class TitleBar extends StatelessWidget {
           children: [
             useBackButton
                 ? IconActionButton(
-                    isCircular: true,
-                    backgroundColor: getSecondaryColor(context),
                     onTap: () {
                       FocusScope.of(context).unfocus();
                       Future.delayed(const Duration(milliseconds: 150), () {
                         Get.back();
                       });
                     },
-                    icon: Icons.arrow_back,
+                    icon: Icons.arrow_back_ios_new,
                     color: getIconColor(context),
-                    size: secondaryIcon(context) * 0.6,
+                    size: secondaryIcon(context) * 0.7,
                   )
                 : IconActionButton(
                     onTap: () => Scaffold.of(context).openDrawer(),
