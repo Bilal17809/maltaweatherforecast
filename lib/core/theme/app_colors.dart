@@ -18,7 +18,6 @@ const Color kRed = Color(0xffe30000);
 // Greens & Blues
 const Color kGreen = Color(0xff55ff00);
 const kBgGreen = Color(0xFF06664F);
-const Color kBlue = Color(0xFF277FEC);
 
 // Text colors
 const Color textBlackColor = Color(0xFF000000);
@@ -27,25 +26,17 @@ const Color textWhiteColor = Color(0xFFFFFFFF);
 const Color textGreyColor = Color(0xff626262);
 
 // App primary
-const Color primaryColorLight = Color(0xFF59BDFF);
+const Color primaryColorLight = Color(0xFF00A67D);
 const Color primaryColorDark = Color(0xFF8F8F8F);
 
 // App secondary
-const Color secondaryColorLight = Color(0xFF4354B2);
+const Color secondaryColorLight = Color(0xFF009072);
 const Color secondaryColorDark = Color(0xFFFFFFFF);
-
-// Container colors
-const Color selectedDarkColor = Color(0xFF483E90);
-const Color selectedLightColor = Color(0xFF8F80F6);
-const Color unselectedColor = Color(0xFFCEE7F9);
 
 // App background
 const Color lightBgColor = Color(0xFF00A67D);
-const Color darkBgColor = Color(0xDD02091B);
+const Color darkBgColor = Color(0xDD09266C);
 
 //Asiyaf
 const Color bgDark2 = Color(0xFF001B31);
 const Color bgDark = Color(0xFF02493F);
-const Color bgPrimary = Color(0xFF00A67D);
-const Color bgSecondary = Color(0xFF009072);
-const Color hourlyRow = Color(0xFF85DFC7);

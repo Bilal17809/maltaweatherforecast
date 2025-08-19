@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import '/ad_manager/ad_manager.dart';
 import '/core/common/app_exceptions.dart';
 import '/presentation/home/controller/home_controller.dart';
 import '/core/local_storage/local_storage.dart';
@@ -37,6 +38,7 @@ class SplashController extends GetxController with ConnectivityMixin {
       <String, Map<String, dynamic>>{}.obs;
   final rawForecastData = <String, dynamic>{}.obs;
   var showButton = false.obs;
+  final bannerAd = Get.find<BannerAdManager>();
 
   @override
   void onReady() {
@@ -45,6 +47,10 @@ class SplashController extends GetxController with ConnectivityMixin {
       initWithConnectivityCheck(
         context: Get.context!,
         onConnected: () async {
+          for (var i = 1; i <= 2; i++) {
+            bannerAd.loadBannerAd('ad$i');
+          }
+
           _initializeApp();
         },
       );
@@ -74,6 +80,10 @@ class SplashController extends GetxController with ConnectivityMixin {
         currentLocationCity: currentLocationCity.value,
       );
       _updateRawForecastDataForCurrentCity();
+      while (rawForecastData.isEmpty) {
+        await Future.delayed(const Duration(milliseconds: 50));
+        _updateRawForecastDataForCurrentCity();
+      }
       Get.find<HomeController>().isWeatherDataLoaded.value = true;
       isDataLoaded.value = true;
     } catch (e) {
@@ -132,10 +142,4 @@ class SplashController extends GetxController with ConnectivityMixin {
   String get selectedCityName => selectedCity.value?.cityAscii ?? 'Loading...';
   bool get isAppReady => isDataLoaded.value;
   CityModel? get currentCity => currentLocationCity.value;
-  CityModel? get chosenCity => selectedCity.value;
-  bool get isFirstTime => isFirstLaunch.value;
-  Map<String, dynamic> get rawWeatherData {
-    final key = LocationUtilsService.fromCityModel(selectedCity.value!);
-    return _rawDataStorage[key] ?? {};
-  }
 }

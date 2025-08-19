@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '/core/constants/constants.dart';
 import 'theme.dart';
 
 TextStyle headlineLargeStyle(BuildContext context) => TextStyle(
-  fontSize: mobileHeight(context) * 0.14,
+  fontSize: 64,
   fontWeight: FontWeight.w700,
   color: primaryText(context),
   shadows: kShadow,
@@ -56,6 +55,7 @@ TextStyle bodySmallStyle(BuildContext context) => TextStyle(
   fontWeight: FontWeight.w600,
   color: primaryText(context),
 );
+
 final List<Shadow> kShadow = [
   Shadow(
     offset: Offset(3, 3),

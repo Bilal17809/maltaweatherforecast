@@ -51,7 +51,10 @@ class CurrentLocationCard extends StatelessWidget {
               bottomLeft: Radius.circular(24),
             ),
             border: isCurrentlySelected
-                ? Border.all(color: getSecondaryColor(context), width: 2)
+                ? Border.all(
+                    color: context.isDark ? secondaryColorDark : bgDark2,
+                    width: 2,
+                  )
                 : null,
           ),
           child: Padding(
@@ -67,7 +70,7 @@ class CurrentLocationCard extends StatelessWidget {
                           Icon(
                             Icons.my_location,
                             color: kWhite,
-                            size: smallIcon(context),
+                            size: secondaryIcon(context),
                           ),
                           const Gap(kGap),
                           Expanded(
@@ -111,7 +114,7 @@ class CurrentLocationCard extends StatelessWidget {
                       ? Icons.my_location
                       : Icons.location_searching,
                   color: kWhite,
-                  size: smallIcon(context),
+                  size: secondaryIcon(context),
                 ),
               ],
             ),

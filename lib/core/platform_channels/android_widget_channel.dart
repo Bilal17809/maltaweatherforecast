@@ -68,7 +68,12 @@ class WidgetUpdaterService {
   static Future<void> requestPinWidget() async {
     try {
       await _channel.invokeMethod('requestPinWidget');
-      WidgetUpdateManager.startPeriodicUpdate();
+      Timer.periodic(const Duration(seconds: 2), (timer) async {
+        if (await isWidgetActive()) {
+          WidgetUpdateManager.startPeriodicUpdate();
+          timer.cancel();
+        }
+      });
     } catch (e) {
       debugPrint("Error requesting widget pin: $e");
     }
@@ -89,8 +94,6 @@ class WidgetUpdaterService {
           debugPrint("Widget tapped => Triggering update...");
           WidgetUpdateManager.startPeriodicUpdate();
           break;
-        default:
-          debugPrint("Unhandled method: ${call.method}");
       }
     });
   }

@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import '/ad_manager/ad_manager.dart';
+import '/core/constants/constants.dart';
 import 'package:velocity_x/velocity_x.dart';
-import '/core/animation/view/animation.dart';
-import '/core/animation/view/text_animation.dart';
+import '/core/animation/view/splash_animation.dart';
+import '/core/animation/view/splash_text_animation.dart';
 import '../controller/splash_controller.dart';
 import '/core/theme/app_colors.dart';
 import '/presentation/home/view/home_view.dart';
 
 class SplashView extends StatelessWidget {
   SplashView({super.key});
-
   final splashController = Get.find<SplashController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgGreen,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Center(
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(kBodyHp),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 50),
+                const Gap(kGap),
                 const _LogoSection(),
-                const SizedBox(height: 18),
                 _AppTitle(),
-                const SizedBox(height: 6),
                 const _SubtitleSection(),
-                const SizedBox(height: 87),
-                _StartButton(splashController: splashController),
-                const SizedBox(height: 40),
+                Padding(
+                  padding: EdgeInsets.only(bottom: mobileHeight(context) * 0.1),
+                  child: _StartButton(splashController: splashController),
+                ),
               ],
             ),
           ),
@@ -46,7 +48,7 @@ class _LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AnimatedImageSequence();
+    return const SplashAnimation();
   }
 }
 
@@ -55,7 +57,7 @@ class _AppTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TypewriterText(
+        SplashTextAnimation(
           text: "Malta Weather",
           speed: const Duration(milliseconds: 150),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -107,12 +109,18 @@ class _StartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ad = Get.find<SplashInterstitialManager>();
     return Obx(() {
       return splashController.isLoading.value
           ? const SpinKitThreeBounce(color: kWhite, size: 50.0)
           : ElevatedButton(
-              onPressed: () {
-                Get.off(() => HomeView());
+              onPressed: () async {
+                if (!ad.isShowing.value) {
+                  ad.showSplashAd(() {});
+                  Get.off(() => HomeView());
+                } else {
+                  Get.off(() => HomeView());
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kYellow,

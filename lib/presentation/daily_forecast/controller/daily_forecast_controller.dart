@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '/core/mixins/connectivity_mixin.dart';
 import '/core/services/services.dart';
 import '/presentation/home/controller/home_controller.dart';
+import '/ad_manager/ad_manager.dart';
 
 class DailyForecastController extends GetxController with ConnectivityMixin {
   var forecastData = <Map<String, dynamic>>[].obs;
@@ -19,6 +20,7 @@ class DailyForecastController extends GetxController with ConnectivityMixin {
   @override
   void onReady() {
     super.onReady();
+    Get.find<InterstitialAdManager>().checkAndDisplayAd();
     final args = Get.arguments as Map<String, dynamic>?;
     selectedDate = args?['date'];
     initWithConnectivityCheck(

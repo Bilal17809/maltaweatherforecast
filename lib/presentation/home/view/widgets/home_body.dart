@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import '/ad_manager/ad_manager.dart';
+import '/core/platform_channels/android_widget_channel.dart';
 import '/core/animation/view/animated_weather_icon.dart';
 import '/presentation/home/view/widgets/daily_forecast_list.dart';
 import '../../controller/home_controller.dart';
@@ -17,7 +19,6 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
-
     return Obx(() {
       final selectedCity = homeController.selectedCity.value;
       final weather = selectedCity != null
@@ -29,7 +30,6 @@ class HomeBody extends StatelessWidget {
       if (selectedCity == null || weather == null) {
         return Center(child: CircularProgressIndicator(color: kWhite));
       }
-
       return Column(
         children: [
           TitleBar(
@@ -50,38 +50,80 @@ class HomeBody extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(kBodyHp),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AnimatedWeatherIcon(
-                  imagePath: WeatherUtils.getWeatherIconPath(
-                    WeatherUtils.getWeatherIcon(weather.code),
+          GestureDetector(
+            onLongPress: () async {
+              final isActive = await WidgetUpdaterService.isWidgetActive();
+              if (!isActive) {
+                await WidgetUpdaterService.requestPinWidget();
+                Future.delayed(const Duration(seconds: 1));
+              } else {
+                WidgetUpdateManager.updateWeatherWidget();
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: mobileWidth(context) * 0.2,
+                vertical: mobileWidth(context) * 0.11,
+              ),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: AnimatedWeatherIcon(
+                      imagePath: WeatherUtils.getWeatherIconPath(
+                        WeatherUtils.getWeatherIcon(weather.code),
+                      ),
+                      condition: weather.condition,
+                      width: primaryIcon(context),
+                    ),
                   ),
-                  condition: weather.condition,
-                  width: primaryIcon(context),
-                ),
-                Text(
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  softWrap: true,
-                  weather.condition,
-                  style: titleMediumStyle(context),
-                ),
-                const Gap(kGap),
-                Text('$temp°C', style: headlineSmallStyle(context)),
-                const Gap(kGap),
-              ],
+                  const Gap(kGap),
+                  Column(
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          maxLines: 1,
+                          '$temp°C',
+                          style: headlineLargeStyle(context),
+                        ),
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          softWrap: true,
+                          weather.condition,
+                          style: titleLargeStyle(context),
+                        ),
+                      ),
+                      const Gap(kGap),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kElementGap),
-            child: HourlyForecastList(showBg: true),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kElementGap),
+              child: HourlyForecastList(showBg: true),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(kElementGap),
-            child: DailyForecastList(),
+          if (!homeController.isDrawerOpen.value) ...[
+            const Gap(kElementGap),
+            Obx(() {
+              final nativeAdManager = Get.find<NativeAdManager>();
+              return nativeAdManager.isAdLoaded.value
+                  ? nativeAdManager.showNativeAd()
+                  : const NativeAdShimmer();
+            }),
+          ],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(kElementGap),
+              child: DailyForecastList(),
+            ),
           ),
         ],
       );
