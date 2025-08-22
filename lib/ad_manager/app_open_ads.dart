@@ -44,7 +44,7 @@ class AppOpenAdManager extends GetxController with WidgetsBindingObserver {
   Future<void> initRemoteConfig() async {
     try {
       await RemoteConfigService().init();
-      final showAd = RemoteConfigService().getBool('AppOpen', 'AppOpen');
+      final showAd = RemoteConfigService().getBool('AppOpen', 'AppOpenAd');
       if (showAd) {
         _loadAppOpenAd();
       }
@@ -106,7 +106,7 @@ class AppOpenAdManager extends GetxController with WidgetsBindingObserver {
     if (Platform.isAndroid) {
       return 'ca-app-pub-8172082069591999/5371833834';
     } else if (Platform.isIOS) {
-      return '';
+      return 'ca-app-pub-5405847310750111/6589083719';
     } else {
       throw UnsupportedError('Platform not supported');
     }

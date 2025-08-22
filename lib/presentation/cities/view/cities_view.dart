@@ -49,12 +49,12 @@ class CitiesView extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: Obx(() {
-          if (Get.find<InterstitialAdManager>().isShow.value) {
-            return const SizedBox();
-          }
-          return Get.find<BannerAdManager>().showBannerAd('ad1');
-        }),
+        // bottomNavigationBar: Obx(() {
+        //   if (Get.find<InterstitialAdManager>().isShow.value) {
+        //     return const SizedBox();
+        //   }
+        //   return Get.find<BannerAdManager>().showBannerAd('ad1');
+        // }),
       ),
     );
   }
@@ -74,19 +74,30 @@ class _CitiesGrid extends StatelessWidget {
         }
         return Padding(
           padding: const EdgeInsets.only(bottom: kGap),
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kBodyHp,
-              vertical: kElementGap,
-            ),
-            itemCount: cities.length,
-            itemBuilder: (BuildContext context, int index) {
-              final city = cities[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: kElementGap),
-                child: CityCard(controller: controller, city: city),
-              );
-            },
+          child: Column(
+            children: [
+              if (!Get.find<InterstitialAdManager>().isShow.value &&
+                  !Get.find<AppOpenAdManager>().isAdVisible.value) ...[
+                MyNativeAdWidget(),
+              ],
+              SizedBox(height: 12,),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kBodyHp,
+                    vertical: kElementGap,
+                  ),
+                  itemCount: cities.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final city = cities[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: kElementGap),
+                      child: CityCard(controller: controller, city: city),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       }),

@@ -19,6 +19,7 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
+    final nativeAds=Get.find<NativeAdController>();
     return Obx(() {
       final selectedCity = homeController.selectedCity.value;
       final weather = selectedCity != null
@@ -110,15 +111,22 @@ class HomeBody extends StatelessWidget {
               child: HourlyForecastList(showBg: true),
             ),
           ),
-          if (!homeController.isDrawerOpen.value) ...[
-            const Gap(kElementGap),
-            Obx(() {
-              final nativeAdManager = Get.find<NativeAdManager>();
-              return nativeAdManager.isAdLoaded.value
-                  ? nativeAdManager.showNativeAd()
-                  : const NativeAdShimmer();
-            }),
+          SizedBox(height:12,),
+          if (!homeController.isDrawerOpen.value &&
+              !Get.find<AppOpenAdManager>().isAdVisible.value) ...[
+            MyNativeAdWidget(),
           ],
+
+          // if (!homeController.isDrawerOpen.value) ...[
+          //   const Gap(kElementGap),
+          //   Obx(() {
+          //     final nativeAdManager = Get.find<NativeAdManager>();
+          //     return nativeAdManager.isAdLoaded.value
+          //         ? nativeAdManager.showNativeAd()
+          //         : const NativeAdShimmer();
+          //   }),
+          // ],
+          SizedBox(height: 12,),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(kElementGap),

@@ -15,7 +15,10 @@ Future<void> main() async {
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
   await AqiService.initialize();
-  Get.put(AppOpenAdManager());
+  // Get.put(AppOpenAdManager());
+  // Get.put(NativeAdController());
+  // Get.put(SplashInterstitialManager());
+  Get.put(RemoveAds());
   DependencyInjection.init();
   OnesignalService.init();
   final storage = LocalStorage();

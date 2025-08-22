@@ -23,7 +23,7 @@ class BannerAdManager extends GetxController {
     if (Platform.isAndroid) {
       return 'ca-app-pub-8172082069591999/3961150447';
     } else if (Platform.isIOS) {
-      return '';
+      return 'ca-app-pub-5405847310750111/9215247053';
     } else {
       throw UnsupportedError('Unsupported platform');
     }

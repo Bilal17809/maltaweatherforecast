@@ -27,7 +27,7 @@ class SplashInterstitialManager extends GetxController {
     if (Platform.isAndroid) {
       return 'ca-app-pub-8172082069591999/9021905439';
     } else if (Platform.isIOS) {
-      return '';
+      return 'ca-app-pub-5405847310750111/9798820544';
     } else {
       throw UnsupportedError("Platform not supported");
     }
