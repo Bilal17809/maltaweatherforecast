@@ -83,6 +83,7 @@ class CitiesController extends GetxController with ConnectivityMixin {
       onConnected: () async {
         splashController.selectedCity.value = city;
         await splashController.cityStorageService.saveSelectedCity(city);
+        splashController.loadWeatherService;
         WidgetUpdateManager.updateWeatherWidget();
       },
     );
