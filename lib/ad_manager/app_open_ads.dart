@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:maltaweatherforecast/ad_manager/ad_manager.dart';
 import '/core/services/services.dart';
 
 class AppOpenAdManager extends GetxController with WidgetsBindingObserver {
@@ -82,6 +83,9 @@ class AppOpenAdManager extends GetxController with WidgetsBindingObserver {
   }
 
   void _loadAppOpenAd() {
+    if(Get.find<RemoveAds>().isSubscribedGet.value){
+      SizedBox();
+    }
     AppOpenAd.load(
       adUnitId: _getAdUnitId(),
       request: const AdRequest(),
@@ -101,7 +105,6 @@ class AppOpenAdManager extends GetxController with WidgetsBindingObserver {
   void setInterstitialAdDismissed() {
     _interstitialAdDismissed = true;
   }
-
   String _getAdUnitId() {
     if (Platform.isAndroid) {
       return 'ca-app-pub-8172082069591999/5371833834';

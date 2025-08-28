@@ -38,7 +38,7 @@ class SplashController extends GetxController with ConnectivityMixin {
       <String, Map<String, dynamic>>{}.obs;
   final rawForecastData = <String, dynamic>{}.obs;
   var showButton = false.obs;
-  final bannerAd = Get.find<BannerAdManager>();
+  // final bannerAd = Get.find<BannerAdManager>();
 
   @override
   void onReady() {
@@ -47,9 +47,9 @@ class SplashController extends GetxController with ConnectivityMixin {
       initWithConnectivityCheck(
         context: Get.context!,
         onConnected: () async {
-          for (var i = 1; i <= 2; i++) {
-            bannerAd.loadBannerAd('ad$i');
-          }
+          // for (var i = 1; i <= 2; i++) {
+          //   bannerAd.loadBannerAd('ad$i');
+          // }
 
           _initializeApp();
         },

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '/ad_manager/ad_manager.dart';
@@ -32,11 +34,38 @@ class HomeController extends GetxController with ConnectivityMixin {
   @override
   void onInit() {
     super.onInit();
+    requestTrackingPermission();
     _safeInit();
     WidgetUpdaterService.setupMethodChannelHandler();
     WidgetUpdateManager.startPeriodicUpdate();
     Get.find<InterstitialAdManager>().checkAndDisplayAd();
   }
+
+  Future<void> requestTrackingPermission() async {
+    if (!Platform.isIOS) {
+      return;
+    }
+    final trackingStatus =
+    await AppTrackingTransparency.requestTrackingAuthorization();
+
+    switch (trackingStatus) {
+      case TrackingStatus.notDetermined:
+        debugPrint('User has not yet decided');
+        break;
+      case TrackingStatus.denied:
+        debugPrint('User denied tracking');
+        break;
+      case TrackingStatus.authorized:
+        debugPrint('User granted tracking permission');
+        break;
+      case TrackingStatus.restricted:
+        debugPrint('Tracking restricted');
+        break;
+      default:
+        debugPrint('Unknown tracking status');
+    }
+  }
+
 
   Future<void> _safeInit() async {
     while (!splashController.isAppReady) {

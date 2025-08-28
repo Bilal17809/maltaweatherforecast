@@ -12,7 +12,7 @@ class RemoveAds extends GetxController {
 
   Future<void> checkSubscriptionStatus() async {
     final prefs = LocalStorage();
-    final isSubscribed = await prefs.getBool('SubscribeHonduras') ?? false;
+    final isSubscribed = await prefs.getBool('SubscribeMalta') ?? false;
     isSubscribedGet.value = isSubscribed;
   }
 }

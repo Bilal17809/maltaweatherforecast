@@ -1,5 +1,46 @@
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
+class GlassButton extends StatelessWidget {
+  final IconData? icon;
+  final String? text;
+  final double width;
+  final VoidCallback? onTap;
+
+  const GlassButton({
+    super.key,
+    this.icon,
+    this.text,
+    this.width = 30,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        height: 34,
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white.withValues(alpha: 0.6),
+        ),
+        child: Center(
+          child: icon != null
+              ? Icon(icon, size: 18)
+              : Text(
+            text ?? "",
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class IconActionButton extends StatelessWidget {
   final VoidCallback? onTap;

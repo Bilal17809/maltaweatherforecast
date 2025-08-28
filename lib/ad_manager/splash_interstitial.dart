@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'app_open_ads.dart';
+
 class SplashInterstitialManager extends GetxController {
   InterstitialAd? _splashAd;
   bool _isAdReady = false;
@@ -98,6 +100,7 @@ class SplashInterstitialManager extends GetxController {
       onAdFailedToShowFullScreenContent: (ad, error) {
         debugPrint("Splash Interstitial failed: $error");
         ad.dispose();
+        Get.find<AppOpenAdManager>().setInterstitialAdDismissed();
         isShowing.value = false;
         _resetAfterAd();
         onAdClosed();

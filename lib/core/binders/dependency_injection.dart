@@ -82,7 +82,7 @@ class DependencyInjection {
       () => InterstitialAdManager(),
       fenix: true,
     );
-    Get.lazyPut<BannerAdManager>(() => BannerAdManager(), fenix: true);
+    // Get.lazyPut<AppOpenAdManager>(() => AppOpenAdManager(), fenix: true);
     Get.lazyPut<NativeAdController>(() => NativeAdController(), fenix: true);
   }
 }

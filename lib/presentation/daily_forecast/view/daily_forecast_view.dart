@@ -93,7 +93,7 @@ class DailyForecastView extends StatelessWidget {
         if (Get.find<InterstitialAdManager>().isShow.value) {
           return const SizedBox();
         }
-        return Get.find<BannerAdManager>().showBannerAd('ad2');
+        return BannerAdWidget();
       }),
     );
   }
