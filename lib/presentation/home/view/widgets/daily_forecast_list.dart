@@ -33,7 +33,7 @@ class DailyForecastList extends StatelessWidget {
       if (isLoading) {
         const shimmerItemCount = 7;
         return Container(
-          height: mobileHeight(context) * 0.23,
+          width: mobileWidth(context) * 0.16,
           decoration: roundedDecorationWithShadow(context),
           child: ShimmerListView(
             itemCount: shimmerItemCount,
@@ -89,7 +89,7 @@ class _DailyForecast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: mobileWidth(context) * 0.23,
+      width: mobileWidth(context) * 0.16,
       margin: EdgeInsets.symmetric(horizontal: 1),
       decoration: todayCardDecoration(context, isSelected),
       child: FittedBox(

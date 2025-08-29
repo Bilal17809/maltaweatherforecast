@@ -142,4 +142,9 @@ class SplashController extends GetxController with ConnectivityMixin {
   String get selectedCityName => selectedCity.value?.cityAscii ?? 'Loading...';
   bool get isAppReady => isDataLoaded.value;
   CityModel? get currentCity => currentLocationCity.value;
+  bool get isFirstTime => isFirstLaunch.value;
+  Map<String, dynamic> get rawWeatherData {
+    final key = LocationUtilsService.fromCityModel(selectedCity.value!);
+    return _rawDataStorage[key] ?? {};
+  }
 }
