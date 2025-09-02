@@ -8,12 +8,27 @@ import '../controller/home_controller.dart';
 import 'widgets/home_body.dart';
 import '/core/utils/home_dialog.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+
+
+}
+
+class _HomeViewState extends State<HomeView> {
+
+  final homeController = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    homeController.requestTrackingPermission();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final homeController = Get.find<HomeController>();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, value) async {

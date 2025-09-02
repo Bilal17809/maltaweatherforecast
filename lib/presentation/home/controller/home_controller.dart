@@ -34,7 +34,6 @@ class HomeController extends GetxController with ConnectivityMixin {
   @override
   void onInit() {
     super.onInit();
-    requestTrackingPermission();
     _safeInit();
     WidgetUpdaterService.setupMethodChannelHandler();
     WidgetUpdateManager.startPeriodicUpdate();

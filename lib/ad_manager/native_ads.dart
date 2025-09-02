@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import '../core/constants/constants.dart';
 import '../core/services/services.dart';
 import '../core/theme/theme.dart';
+import 'app_open_ads.dart';
 
 class NativeAdShimmer extends StatelessWidget {
   const NativeAdShimmer({super.key});
@@ -193,7 +194,10 @@ class _MyNativeAdWidgetState extends State<MyNativeAdWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (removeAds.isSubscribedGet.value) {
+    final appOpenAdController = Get.find<AppOpenAdManager>();
+    if (removeAds.isSubscribedGet.value
+       || appOpenAdController.isAdVisible.value
+    ) {
       return const SizedBox();
     }
 
