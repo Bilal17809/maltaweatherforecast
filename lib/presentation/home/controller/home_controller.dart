@@ -40,31 +40,6 @@ class HomeController extends GetxController with ConnectivityMixin {
     Get.find<InterstitialAdManager>().checkAndDisplayAd();
   }
 
-  Future<void> requestTrackingPermission() async {
-    if (!Platform.isIOS) {
-      return;
-    }
-    final trackingStatus =
-        await AppTrackingTransparency.requestTrackingAuthorization();
-
-    switch (trackingStatus) {
-      case TrackingStatus.notDetermined:
-        debugPrint('User has not yet decided');
-        break;
-      case TrackingStatus.denied:
-        debugPrint('User denied tracking');
-        break;
-      case TrackingStatus.authorized:
-        debugPrint('User granted tracking permission');
-        break;
-      case TrackingStatus.restricted:
-        debugPrint('Tracking restricted');
-        break;
-      default:
-        debugPrint('Unknown tracking status');
-    }
-  }
-
   Future<void> _safeInit() async {
     while (!splashController.isAppReady) {
       await Future.delayed(const Duration(milliseconds: 50));
@@ -129,4 +104,29 @@ class HomeController extends GetxController with ConnectivityMixin {
   CityModel? get currentLocationCity => splashController.currentCity;
   String get selectedCityName =>
       selectedCity.value?.city ?? splashController.selectedCityName;
+
+  Future<void> requestTrackingPermission() async {
+    if (!Platform.isIOS) {
+      return;
+    }
+    final trackingStatus =
+        await AppTrackingTransparency.requestTrackingAuthorization();
+
+    switch (trackingStatus) {
+      case TrackingStatus.notDetermined:
+        debugPrint('User has not yet decided');
+        break;
+      case TrackingStatus.denied:
+        debugPrint('User denied tracking');
+        break;
+      case TrackingStatus.authorized:
+        debugPrint('User granted tracking permission');
+        break;
+      case TrackingStatus.restricted:
+        debugPrint('Tracking restricted');
+        break;
+      default:
+        debugPrint('Unknown tracking status');
+    }
+  }
 }

@@ -80,12 +80,8 @@ class SplashController extends GetxController with ConnectivityMixin {
         currentLocationCity: currentLocationCity.value,
       );
       _updateRawForecastDataForCurrentCity();
-      while (rawForecastData.isEmpty) {
-        await Future.delayed(const Duration(milliseconds: 50));
-        _updateRawForecastDataForCurrentCity();
-      }
-      Get.find<HomeController>().isWeatherDataLoaded.value = true;
       isDataLoaded.value = true;
+      Get.find<HomeController>().isWeatherDataLoaded.value = true;
     } catch (e) {
       debugPrint('${AppExceptions().errorAppInit}: $e');
       isDataLoaded.value = true;
@@ -123,15 +119,18 @@ class SplashController extends GetxController with ConnectivityMixin {
     await localStorage.setBool('has_current_location', currentCity != null);
   }
 
-  void cacheCityData(String key, Map<String, dynamic> data) {
-    _rawDataStorage[key] = data;
+  String get selectedCityName => selectedCity.value?.cityAscii ?? 'Loading...';
+  bool get isAppReady => isDataLoaded.value;
+  CityModel? get currentCity => currentLocationCity.value;
+  CityModel? get chosenCity => selectedCity.value;
+  bool get isFirstTime => isFirstLaunch.value;
+  Map<String, dynamic> get rawWeatherData {
+    final key = LocationUtilsService.fromCityModel(selectedCity.value!);
+    return _rawDataStorage[key] ?? {};
   }
 
-  void _updateRawForecastDataForCurrentCity() {
-    final key = LocationUtilsService.fromCityModel(selectedCity.value!);
-    if (_rawDataStorage.containsKey(key)) {
-      rawForecastData.value = Map<String, dynamic>.from(_rawDataStorage[key]!);
-    }
+  void cacheCityData(String key, Map<String, dynamic> data) {
+    _rawDataStorage[key] = data;
   }
 
   Map<String, dynamic> getCityForecastData(CityModel city) {
@@ -139,12 +138,11 @@ class SplashController extends GetxController with ConnectivityMixin {
     return _rawDataStorage[key] ?? {};
   }
 
-  String get selectedCityName => selectedCity.value?.cityAscii ?? 'Loading...';
-  bool get isAppReady => isDataLoaded.value;
-  CityModel? get currentCity => currentLocationCity.value;
-  bool get isFirstTime => isFirstLaunch.value;
-  Map<String, dynamic> get rawWeatherData {
+  void _updateRawForecastDataForCurrentCity() async {
     final key = LocationUtilsService.fromCityModel(selectedCity.value!);
-    return _rawDataStorage[key] ?? {};
+    if (_rawDataStorage.containsKey(key)) {
+      print('Updating raw forecast data for $key');
+      rawForecastData.value = Map<String, dynamic>.from(_rawDataStorage[key]!);
+    }
   }
 }

@@ -36,6 +36,14 @@ class HourlyForecastList extends StatelessWidget {
         cityForecastData = splashController.rawForecastData;
       }
 
+      if (cityForecastData.isEmpty) {
+        splashController.loadWeatherService.loadWeatherService(
+          splashController.allCities,
+          selectedCity: selectedCity,
+          currentLocationCity: selectedCity,
+        );
+      }
+
       final forecastDays =
           cityForecastData['forecast']?['forecastday'] as List? ?? [];
 

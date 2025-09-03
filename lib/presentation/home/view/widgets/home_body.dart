@@ -19,7 +19,7 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
-    final nativeAds=Get.find<NativeAdController>();
+    final nativeAds = Get.find<NativeAdController>();
     return Obx(() {
       final selectedCity = homeController.selectedCity.value;
       final weather = selectedCity != null
@@ -78,28 +78,30 @@ class HomeBody extends StatelessWidget {
                     ),
                   ),
                   const Gap(kGap),
-                  Column(
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          maxLines: 1,
-                          '$temp°C',
-                          style: headlineLargeStyle(context),
+                  Flexible(
+                    child: Column(
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            maxLines: 1,
+                            '$temp°C',
+                            style: headlineLargeStyle(context),
+                          ),
                         ),
-                      ),
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: true,
-                          weather.condition,
-                          style: titleLargeStyle(context),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            softWrap: true,
+                            weather.condition,
+                            style: titleLargeStyle(context),
+                          ),
                         ),
-                      ),
-                      const Gap(kGap),
-                    ],
+                        const Gap(kGap),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -111,7 +113,7 @@ class HomeBody extends StatelessWidget {
               child: HourlyForecastList(showBg: true),
             ),
           ),
-          SizedBox(height:12,),
+          const SizedBox(height: kElementGap),
           if (!homeController.isDrawerOpen.value &&
               !Get.find<AppOpenAdManager>().isAdVisible.value) ...[
             MyNativeAdWidget(),
@@ -126,7 +128,7 @@ class HomeBody extends StatelessWidget {
           //         : const NativeAdShimmer();
           //   }),
           // ],
-          SizedBox(height: 12,),
+          const SizedBox(height: kElementGap),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(kElementGap),
